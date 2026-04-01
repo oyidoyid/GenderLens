@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>WordBalance</h2>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<p>
+  WordBalance checks English-only text or documents for gender bias, provides inclusive suggestions, generates a cleaned version, and issues a bias-free certificate.
+</p>
+
+<div class="columns">
+  <!-- Left: input & upload -->
+  <div class="column">
+    <h3>✍️ Paste your text / upload document</h3>
+
+    <form method="post" enctype="multipart/form-data">
+      <label for="text_input">Enter your text:</label><br>
+      <textarea id="text_input" name="text_input" rows="10" cols="70">{{ text }}</textarea>
+      <br><br>
+
+      <label for="file_input">📄 Upload Word Document (.docx):</label><br>
+      <input type="file" id="file_input" name="file_input" accept=".docx">
+      <br><br>
+
+      <button type="submit">🔎 Scan</button>
+    </form>
+  </div>
+
+  <!-- Right: analysis results -->
+  <div class="column">
+    <h3>🔍 Highlighted Text & Bias Analysis</h3>
+
+    {% if result %}
+      {% if result.highlighted %}
+        <div style="background-color:#fff9c4; padding:10px; border-radius:8px; max-height:350px; overflow-y:auto;">
+          {{ result.highlighted|safe }}
+        </div>
+
+        <h3>📊 Bias Analysis</h3>
+        <p><strong>Bias Percentage:</strong> {{ result.bias_pct }}%</p>
+
+        <div class="progress-bar">
+          <div class="progress-inner"
+               style="
+                 width: {{ result.bias_pct }}%;
+                 background-color:
+                   {% if result.bias_pct < 5 %}#4CAF50
+                   {% elif result.bias_pct < 15 %}#FFEB3B
+                   {% else %}#F44336{% endif %};
+               ">
+            {{ result.bias_pct }}%
+          </div>
+        </div>
+
+        <p>
+          <strong>Total words:</strong> {{ result.total_words }} |
+          <strong>Biased words:</strong> {{ result.biased_count }}
+        </p>
+
+        <h3>💡 Suggestions</h3>
+        {% if suggestions %}
+          <ul>
+            {% for item in suggestions %}
+              <li>
+                <strong>{{ item.word }}</strong> → {{ item.replacements|join(", ") }}
+              </li>
+            {% endfor %}
+          </ul>
+
+          <form method="post" action="{{ url_for('download_cleaned') }}">
+            <button type="submit">⬇ Download cleaned .docx (apply first suggestions)</button>
+          </form>
+        {% else %}
+          <p><strong>✅ No biased words detected!</strong></p>
+        {% endif %}
+
+        {% if result.bias_pct == 0 and result.from_file %}
+          {% if logged_in %}
+            <p>
+              🎉 Your uploaded document has 0% bias.
+              <a href="{{ url_for('certificate_page') }}">Generate certificate</a>
+            </p>
+          {% else %}
+            <p>
+              🎉 Your uploaded document has 0% bias.
+              <strong>Please log in to generate a certificate.</strong>
+            </p>
+          {% endif %}
+        {% endif %}
+      {% else %}
+        <p>👈 Paste text or upload a Word file to see highlights here.</p>
+      {% endif %}
+    {% else %}
+      <p>👈 Paste text or upload a Word file to see highlights here.</p>
+    {% endif %}
+  </div>
+</div>
+
+<hr style="margin-top: 20px;">
+
+<div style="
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    background-color: #f1f3f4;
+    font-size: 13px;
+    display: inline-block;
+">
+  <span><strong>Role:</strong> {{ role|capitalize }}</span>
+  {% if role != "subscriber" %}
+    <span style="margin-left: 16px;">
+      <strong>Usage:</strong> {{ usage_count }} out of {{ max_guest_uses }}
+    </span>
+  {% else %}
+    <span style="margin-left: 16px;">
+      <strong>Usage:</strong> Unlimited
+    </span>
+  {% endif %}
+
+  {% if last_response_time_ms is not none %}
+    <span style="margin-left: 16px;">
+      <strong>Last response time:</strong> {{ last_response_time_ms }} ms
+    </span>
+  {% endif %}
+
+</div>
+
+{% endblock %}
