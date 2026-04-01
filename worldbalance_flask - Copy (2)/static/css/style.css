@@ -1,0 +1,242 @@
+/* Global layout */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f6fa;
+  color: #222;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.site-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4CAF50, #2196F3);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 13px;
+  color: #777;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.top-nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.top-nav a:hover {
+  background: #e0f2f1;
+}
+
+.user-info {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Button-like links */
+.btn-link {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #fff !important;
+  font-size: 13px;
+}
+
+.btn-link.primary {
+  background: #1976d2;
+}
+
+.btn-link.primary:hover {
+  background: #1565c0;
+}
+
+.btn-link.danger {
+  background: #e53935;
+}
+
+.btn-link.danger:hover {
+  background: #c62828;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 20px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* Footer */
+.site-footer {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Flash messages */
+.flash-messages {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 16px 0;
+}
+
+.flash-messages li {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  padding: 8px 10px;
+  border-radius: 4px;
+  color: #b00020;
+  font-size: 14px;
+}
+
+/* Columns (dashboard) */
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.column {
+  flex: 1 1 0;
+  min-width: 320px;
+}
+
+/* Form controls */
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="file"] {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-size: 14px;
+}
+
+button,
+input[type="submit"] {
+  background: #1976d2;
+  border: none;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: #1565c0;
+}
+
+/* Bias analysis bar */
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  height: 24px;
+  width: 100%;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.progress-inner {
+  height: 100%;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 24px;
+  color: black;
+  font-weight: bold;
+}
+
+/* Misc text styles */
+h2 {
+  margin-top: 0;
+}
+
+h3 {
+  margin-bottom: 8px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .top-nav {
+    justify-content: flex-start;
+  }
+}
